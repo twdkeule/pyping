@@ -302,14 +302,15 @@ class Ping(object):
 					current_socket.bind((self.sourceaddress, 1))
 			else:
 				current_socket = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.getprotobyname("icmp"))
-		except socket.error, (errno, msg):
-			if errno == 1:
+		except socket.error as e:
+			if e.errno == 1:
 				# Operation not permitted - Add more information to traceback
 				etype, evalue, etb = sys.exc_info()
 				evalue = etype(
 					"%s - Note that ICMP messages can only be send from processes running as root." % evalue
 				)
-				raise etype, evalue, etb
+				# raise etype, evalue, etb
+				raise etype(evalue).with_traceback(etb)
 			raise # raise the original error
 
 		send_time = self.send_one_ping(current_socket)
