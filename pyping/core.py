@@ -61,7 +61,7 @@ def calculate_checksum(source_string):
 		else:
 			loByte = source_string[count + 1]
 			hiByte = source_string[count]
-		sum = sum + ((hiByte) * 256 + (loByte))
+		sum = sum + (hiByte * 256 + loByte)
 		count += 2
 
 	# Handle last byte if applicable (odd-number of bytes)
