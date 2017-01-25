@@ -18,7 +18,7 @@ Use as a Python lib::
 
     >>> import pyping
     >>> r = pyping.ping('google.com')                # Need to be root or
-    >>> r = pyping.ping('google.com', udp = True)    # But it's udp, not real icmp
+    >>> r = pyping.ping('google.com', udp = True)    # But it's udp, not real icmp. This may not work currently
     >>> r.ret_code
     0
     >>> r.destination
