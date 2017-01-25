@@ -61,14 +61,14 @@ def calculate_checksum(source_string):
 		else:
 			loByte = source_string[count + 1]
 			hiByte = source_string[count]
-		sum = sum + (ord(hiByte) * 256 + ord(loByte))
+		sum = sum + ((hiByte) * 256 + (loByte))
 		count += 2
 
 	# Handle last byte if applicable (odd-number of bytes)
 	# Endianness should be irrelevant in this case
 	if countTo < len(source_string): # Check for odd length
 		loByte = source_string[len(source_string) - 1]
-		sum += ord(loByte)
+		sum += (loByte)
 
 	sum &= 0xffffffff # Truncate sum to 32 bits (a variance from ping.c, which
 					  # uses signed ints, but overflow is unlikely in ping)
