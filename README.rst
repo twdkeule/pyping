@@ -2,7 +2,7 @@
 Pyping
 ======
 
-A pure python ping implementation using raw sockets.
+A pure python ping implementation using raw sockets. Developed and tested for python3.
 
 Note that ICMP messages can only be sent from processes running as root
 (in Windows, you must run this script as 'Administrator').
@@ -14,30 +14,15 @@ Original Version from Matthew Dixon Cowles.
 
 Usage
 -----
-Use as a cli tool::
-
-    socketubs@socket-laptop [Pyping]: sudo pyping socketubs.net
-
-    PYTHON-PING socketubs.net (92.243.5.143): 55 data bytes
-    241 bytes from socketubs.net (92.243.5.143): icmp_seq=0 ttl=55 time=64.5 ms
-    241 bytes from socketubs.net (92.243.5.143): icmp_seq=1 ttl=55 time=67.7 ms
-    241 bytes from socketubs.net (92.243.5.143): icmp_seq=2 ttl=55 time=66.6 ms
-
-    ----socketubs.net PYTHON PING Statistics----
-    3 packets transmitted, 3 packets received, 0.0% packet loss
-    round-trip (ms)  min/avg/max = 64.457/66.244/67.677
-
-    socketubs@socket-laptop [Pyping]: pyping --help
-
 Use as a Python lib::
 
     >>> import pyping
-    >>> r = pyping.ping('socketubs.net')                # Need to be root or
-    >>> r = pyping.ping('socketubs.net', udp = True)    # But it's udp, not real icmp
+    >>> r = pyping.ping('google.com')                # Need to be root or
+    >>> r = pyping.ping('google.com', udp = True)    # But it's udp, not real icmp
     >>> r.ret_code
     0
     >>> r.destination
-    'socketubs.net'
+    'google.com'
     >>> r.max_rtt
     '69.374'
     >>> r.avg_rtt
@@ -45,7 +30,7 @@ Use as a Python lib::
     >>> r.min_rtt
     '67.681'
     >>> r.destination_ip
-    '92.243.5.143'
+    '172.217.17.78'
 
 Todo
 ----
@@ -57,10 +42,5 @@ Todo
 Contribute
 ----------
 
-`Fork <http://help.github.com/fork-a-repo/>`_ this repo on `GitHub <https://github.com/socketubs/Pyping>`_ and `send <http://help.github.com/send-pull-requests>`_ pull requests. Thank you.
+`Fork <http://help.github.com/fork-a-repo/>`_ this repo on `GitHub <https://github.com/twdkeule/pyping>`_ and `send <http://help.github.com/send-pull-requests>`_ pull requests. Thank you.
 
-Links
------
-
- - Sourcecode at GitHub: https://github.com/socketubs/Pyping
- - Python Package Index: http://pypi.python.org/pypi/pyping/
