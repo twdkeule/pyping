@@ -1,7 +1,9 @@
 ======
-Pyping  .. image:: https://travis-ci.org/twdkeule/pyping.svg?branch=master
-    :target: https://travis-ci.org/twdkeule/pyping
+Pyping
 ======
+
+.. image:: https://travis-ci.org/twdkeule/pyping.svg?branch=master
+    :target: https://travis-ci.org/twdkeule/pyping
 
 A pure python ping implementation using raw sockets. Developed and tested for python3.
 
