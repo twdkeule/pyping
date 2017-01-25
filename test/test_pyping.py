@@ -1,6 +1,6 @@
 import pytest
 
-from .. import pyping
+import pyping
 
 
 def test_google_dns():
