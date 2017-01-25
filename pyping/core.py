@@ -8,7 +8,7 @@
 
 	Bugs are naturally mine. I'd be glad to hear about them. There are
 	certainly word - size dependencies here.
-	
+
 	:homepage: https://github.com/socketubs/Pyping/
 	:copyleft: 1989-2011 by the python-ping team, see AUTHORS for more details.
 	:license: GNU GPL v2, see LICENSE for more details.
@@ -177,7 +177,7 @@ class Ping(object):
 		else:
 			from_info = "%s (%s)" % (self.destination, ip)
 
-	   	msg = "%d bytes from %s: icmp_seq=%d ttl=%d time=%.1f ms" % (packet_size, from_info, icmp_header["seq_number"], ip_header["ttl"], delay)
+		msg = "%d bytes from %s: icmp_seq=%d ttl=%d time=%.1f ms" % (packet_size, from_info, icmp_header["seq_number"], ip_header["ttl"], delay)
 
 		if self.quiet_output:
 			self.response.output.append(msg)
@@ -209,7 +209,7 @@ class Ping(object):
 		lost_rate = float(lost_count) / self.send_count * 100.0
 
 		msg = "%d packets transmitted, %d packets received, %0.1f%% packet loss" % (self.send_count, self.receive_count, lost_rate)
-	
+
 		if self.quiet_output:
 			self.response.output.append(msg)
 			self.response.packet_lost = lost_count
