@@ -55,7 +55,7 @@ def calculate_checksum(source_string):
 	loByte = 0
 	hiByte = 0
 	while count < countTo:
-		if (sys.byteorder == "little"):
+		if sys.byteorder == "little":
 			loByte = source_string[count]
 			hiByte = source_string[count + 1]
 		else:
@@ -68,7 +68,7 @@ def calculate_checksum(source_string):
 	# Endianness should be irrelevant in this case
 	if countTo < len(source_string): # Check for odd length
 		loByte = source_string[len(source_string) - 1]
-		sum += (loByte)
+		sum += loByte
 
 	sum &= 0xffffffff # Truncate sum to 32 bits (a variance from ping.c, which
 					  # uses signed ints, but overflow is unlikely in ping)
@@ -151,6 +151,7 @@ class Ping(object):
 		self.min_time = 999999999
 		self.max_time = 0.0
 		self.total_time = 0.0
+		self.ttl = -1
 
 	#--------------------------------------------------------------------------
 
@@ -252,8 +253,8 @@ class Ping(object):
 	def setup_signal_handler(self):
 		signal.signal(signal.SIGINT, self.signal_handler)   # Handle Ctrl-C
 		if hasattr(signal, "SIGBREAK"):
-			# Handle Ctrl-Break e.g. under Windows 
-			signal.signal(signal.SIGBREAK, self.signal_handler)
+			# Handle Ctrl-Break e.g. under Windows
+			signal.signal(signal.SIGBREAK, self.signal_handler) # FIXME: pylint: E1101 Module 'signal' has no 'SIGBREAK' member
 
 	#--------------------------------------------------------------------------
 
@@ -284,7 +285,7 @@ class Ping(object):
 				delay = 0
 
 			# Pause for the remainder of the MAX_SLEEP period (if applicable)
-			if (MAX_SLEEP > delay):
+			if MAX_SLEEP > delay:
 				time.sleep((MAX_SLEEP - delay) / 1000.0)
 
 		self.print_exit()
@@ -306,9 +307,7 @@ class Ping(object):
 			if e.errno == 1:
 				# Operation not permitted - Add more information to traceback
 				etype, evalue, etb = sys.exc_info()
-				evalue = etype(
-					"%s - Note that ICMP messages can only be send from processes running as root." % evalue
-				)
+				evalue = etype("%s - Note that ICMP messages can only be send from processes running as root." % evalue)
 				# raise etype, evalue, etb
 				raise etype(evalue).with_traceback(etb)
 			raise # raise the original error
@@ -384,14 +383,14 @@ class Ping(object):
 
 		while True: # Loop while waiting for packet or timeout
 			select_start = default_timer()
-			inputready, outputready, exceptready = select.select([current_socket], [], [], timeout)
+			inputready, _, _ = select.select([current_socket], [], [], timeout)
 			select_duration = (default_timer() - select_start)
 			if inputready == []: # timeout
 				return None, 0, 0, 0, 0
 
 			receive_time = default_timer()
 
-			packet_data, address = current_socket.recvfrom(ICMP_MAX_RECV)
+			packet_data, _ = current_socket.recvfrom(ICMP_MAX_RECV)
 
 			icmp_header = self.header2dict(
 				names=[
