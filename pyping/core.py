@@ -115,7 +115,7 @@ class Response(object):
 		self.destination_ip = None
 
 class Ping(object):
-	def __init__(self, destination, timeout=1000, packet_size=55, own_id=None, quiet_output=True, udp=False, sourceaddress=False):
+	def __init__(self, destination, timeout=1000, packet_size=55, own_id=None, quiet_output=True, udp=False, sourceaddress=''):
 		self.quiet_output = quiet_output
 		if quiet_output:
 			self.response = Response()
@@ -127,8 +127,7 @@ class Ping(object):
 		self.timeout = timeout
 		self.packet_size = packet_size
 		self.udp = udp
-		if sourceaddress != False:
-			self.sourceaddress = socket.gethostbyname(sourceaddress)
+		self.sourceaddress = sourceaddress
 
 		if own_id is None:
 			self.own_id = os.getpid() & 0xFFFF
@@ -298,9 +297,8 @@ class Ping(object):
 		"""
 		try: # One could use UDP here, but it's obscure
 			if self.udp:
-				current_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.getprotobyname("icmp"))
-				if self.sourceaddress:
-					current_socket.bind((self.sourceaddress, 1))
+				current_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.getprotobyname("udp"))
+				current_socket.bind((self.sourceaddress, 1))
 			else:
 				current_socket = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.getprotobyname("icmp"))
 		except socket.error as e:
