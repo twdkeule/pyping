@@ -8,7 +8,6 @@
 """
 
 import subprocess
-import sys
 import re
 
 def is_valid_ip4_address(addr):
@@ -126,7 +125,7 @@ class Ping(object):
 		self.ttl = int(ttl)
 
 	def run(self):
-		args = ['ping', '-c', str(self.count), '-4']
+		args = ['ping', '-c', str(self.count)]
 		if self.timeout > 0:
 			max_timeout = int(self.count * self.timeout)
 			args += ['-W', str(self.timeout)]
