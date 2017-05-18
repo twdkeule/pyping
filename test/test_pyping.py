@@ -6,7 +6,14 @@ import pyping
 def test_google_dns():
     g_dns = '8.8.8.8'
     r = pyping.ping(g_dns)
+    print(r)
     _asserts(r, g_dns)
+
+def test_google_com():
+    g_com = 'google.com'
+    r = pyping.ping(g_com)
+    print(r)
+    _asserts(r, g_com)
 
 
 def _asserts(r, orig_dest):
@@ -24,7 +31,6 @@ def _asserts(r, orig_dest):
     assert avg_rtt > 0
     assert max_rtt >= avg_rtt
     assert avg_rtt >= min_rtt
-
 
 def _test_float(f):
     try:

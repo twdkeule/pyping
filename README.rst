@@ -12,7 +12,7 @@ Usage
 Use as a Python lib::
 
     >>> import pyping
-    >>> r = pyping.ping('google.com')                # Need to be root or
+    >>> r = pyping.ping('google.com')
     >>> r.destination
     'google.com'
     >>> r.max_rtt
