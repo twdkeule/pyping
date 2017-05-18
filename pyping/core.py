@@ -115,6 +115,9 @@ class Response(object):
 
 
 class Ping(object):
+	ping = 'ping'
+	has_ipv4_flag = None
+
 	def __init__(self, destination, count=1, timeout=-1.0, packet_size=-1, interval=-1.0, sourceaddress=None, ttl=-1):
 		self.destination = str(destination)
 		self.count = int(count)
@@ -124,8 +127,20 @@ class Ping(object):
 		self.sourceaddress = sourceaddress
 		self.ttl = int(ttl)
 
+	@staticmethod
+	def _check_exe():
+		ret = subprocess.run([Ping.ping, '-h'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		if '4' in ret.stdout.decode():
+			Ping.has_ipv4_flag = True
+		else:
+			Ping.has_ipv4_flag = False
+
 	def run(self):
-		args = ['ping', '-c', str(self.count)]
+		if Ping.has_ipv4_flag is None:
+			Ping._check_exe()
+		args = [Ping.ping, '-c', str(self.count)]
+		if Ping.has_ipv4_flag:
+			args.append('-4')
 		if self.timeout > 0:
 			max_timeout = int(self.count * self.timeout)
 			args += ['-W', str(self.timeout)]

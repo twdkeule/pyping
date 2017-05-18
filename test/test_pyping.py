@@ -1,7 +1,4 @@
-import pytest
-
 import pyping
-
 
 def test_google_dns():
     g_dns = '8.8.8.8'
