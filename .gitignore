@@ -71,6 +71,7 @@ target/
 
 # pyenv
 .python-version
+pyping_env
 
 # celery beat schedule file
 celerybeat-schedule
