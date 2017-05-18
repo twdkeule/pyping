@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
 	name='pyping',
-	version='0.0.1',
+	version='0.0.6',
 	description='A python wrapper around the Linux ping command',
 	long_description=open('README.rst').read() + '\n\n' +
                      open('HISTORY.rst').read(),

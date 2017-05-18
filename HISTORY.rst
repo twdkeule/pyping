@@ -4,7 +4,7 @@ History
 2017-05-18
 ++++++++++
 
-Complete rewrite as a wrapper around the ping command
+Complete rewrite as a wrapper around the ping command. 
 
 2012-06-05
 ++++++++++

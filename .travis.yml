@@ -8,12 +8,11 @@ python:
   - "nightly" # currently points to 3.7-dev
 # command to install dependencies
 # install: "pip install -r requirements.txt"
-before_install:
-  - sudo sed -i -e 's/^Defaults\tsecure_path.*$//' /etc/sudoers
 
 install:
-  - pip3 install -e .
   - pip3 install -U pytest
+  - pip3 install -e .
 # command to run tests
 script:
-  - sudo $(which pytest)
+  - cd test
+  - python3 -m pytest
