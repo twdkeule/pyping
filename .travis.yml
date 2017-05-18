@@ -15,5 +15,4 @@ install:
   - pip3 install -e .
 # command to run tests
 script:
-  - cd test
-  - python3 -m pytest -s
+  - python3 -m pytest -s test

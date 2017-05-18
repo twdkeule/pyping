@@ -28,10 +28,7 @@ setup(
 	version='0.0.6',
 	license=open("LICENSE").read(),
 	description='A python wrapper around the Linux ping command',
-	long_description='%s\n%s' % (
-		re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst'))#,
-		#re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
-	),
+	long_description=read('README.rst'),
 	author="Thomas De Keulenaer",
 	author_email="thomas.dekeulenaer@gmail.com",
 	url='https://github.com/twdkeule/pyping',
