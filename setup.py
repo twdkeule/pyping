@@ -53,8 +53,9 @@ setup(
 		"ping", "icmp", "latency"
 	],
 	install_requires=[
-		'click',
 	],
+	setup_requires=['pytest-runner'],
+	tests_require=['pytest'],
 	extras_require={
 		# eg:
 		#   'rst': ['docutils>=0.11'],
