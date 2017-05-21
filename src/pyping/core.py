@@ -205,7 +205,7 @@ class Ping(object):
 		elif _platform == "win32":
 	   		Ping.platform_is_windows = True
 		ret = subprocess.run([Ping.ping, '-h'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		if '4' in ret.stdout.decode() or Ping.windows:
+		if '4' in ret.stdout.decode() or Ping.platform_is_windows:
 			Ping.has_ipv4_flag = True
 		else:
 			Ping.has_ipv4_flag = False

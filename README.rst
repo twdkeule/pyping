@@ -5,7 +5,7 @@ Pyping
 .. image:: https://travis-ci.org/twdkeule/pyping.svg?branch=master
     :target: https://travis-ci.org/twdkeule/pyping
 
-A python wrapper around the Linux ping command. Developed and tested for python3.
+A python wrapper around the Linux ping command. Developed and tested for python3 on Windows 10 and Ubuntu 17.04 and 12.04.
 
 Usage
 -----
@@ -28,9 +28,7 @@ Todo
 ----
 
 - Add IPv6 support
-- Add Windows support
 - Docs
-- Tests
 
 Contribute
 ----------
