@@ -27,19 +27,6 @@
 import subprocess
 import re
 
-def is_valid_ip4_address(addr):
-	parts = addr.split(".")
-	if not len(parts) == 4:
-		return False
-	for part in parts:
-		try:
-			number = int(part)
-		except ValueError:
-			return False
-		if number > 255:
-			return False
-	return True
-
 class Response(object):
 	def __init__(self, returnvalue, output):
 		self.succes = returnvalue == 0
@@ -94,6 +81,9 @@ class Response(object):
 				self.destination = parts[1].strip(':')
 			return False
 		self.destination = parts[1]
+		self.destination_ip = parts[1]
+		if '(' ==  parts[2][0] and ')' == parts[2][-1]:
+			self.destination_ip = parts[2].strip('()')
 		match = re.search(r'(\d+)\(\d+\) bytes of data\.', line)
 		if match is None:
 			raise ValueError('Header: cannot parse: ' + line)

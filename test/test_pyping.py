@@ -22,6 +22,7 @@ def test_google_dns():
 	g_dns = '8.8.8.8'
 	r = pyping.ping(g_dns)
 	_asserts(r, g_dns)
+	assert is_valid_ip4_address(r.destination_ip)
 
 def test_google_com():
 	g_com = 'google.com'
@@ -50,3 +51,16 @@ def _test_float(f):
 		return True
 	except ValueError:
 		return False
+
+def is_valid_ip4_address(addr):
+	parts = addr.split(".")
+	if not len(parts) == 4:
+		return False
+	for part in parts:
+		try:
+			number = int(part)
+		except ValueError:
+			return False
+		if number > 255:
+			return Falses
+	return True
