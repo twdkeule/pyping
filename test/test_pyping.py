@@ -62,5 +62,5 @@ def is_valid_ip4_address(addr):
 		except ValueError:
 			return False
 		if number > 255:
-			return Falses
+			return False
 	return True

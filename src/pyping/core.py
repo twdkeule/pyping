@@ -91,7 +91,7 @@ class Response(object):
 			return False
 		self.destination = parts[1]
 		self.destination_ip = parts[1]
-		if '(' ==  parts[2][0] and ')' == parts[2][-1]:
+		if parts[2][0] == '(' and parts[2][-1] == ')':
 			self.destination_ip = parts[2].strip('()')
 		match = re.search(r'(\d+)\(\d+\) bytes of data\.', line)
 		if match is None:
@@ -153,7 +153,7 @@ class Response(object):
 			return False
 		self.destination = parts[1]
 		self.destination_ip = parts[1]
-		if '[' ==  parts[2][0] and ']' == parts[2][-1]:
+		if parts[2][0] == '[' and parts[2][-1] == ']':
 			self.destination_ip = parts[2].strip('[]')
 		match = re.search(r'with (\d+) bytes of data', line)
 		if match is None:
@@ -196,18 +196,15 @@ class Ping(object):
 	def _check_exe():
 		from sys import platform as _platform
 		if _platform == "linux" or _platform == "linux2":
-		   # linux
-		   pass
+			# linux
+			pass
 		elif _platform == "darwin":
-		   # MAC OS X
-		   pass
+			# MAC OS X
+			pass
 		elif _platform == "win32":
-	   		Ping.platform_is_windows = True
+			Ping.platform_is_windows = True
 		ret = subprocess.run([Ping.ping, '-h'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		if '4' in ret.stdout.decode() or Ping.platform_is_windows:
-			Ping.has_ipv4_flag = True
-		else:
-			Ping.has_ipv4_flag = False
+		Ping.has_ipv4_flag = bool('4' in ret.stdout.decode() or Ping.platform_is_windows)
 
 	def run(self):
 		if Ping.has_ipv4_flag is None:
@@ -246,5 +243,9 @@ class Ping(object):
 		return Response(compl_proc.returncode, compl_proc.stdout.decode(), Ping.platform_is_windows)
 
 def ping(hostname, count=3, *args, **kwargs):
-	p = Ping(hostname, count, *args, **kwargs)
-	return p.run()
+	"""
+		Uses the CLI 'ping' command and parses its output.
+		Notice that this will take several seconds with default parameters
+	"""
+	pyping = Ping(hostname, count, *args, **kwargs)
+	return pyping.run()
