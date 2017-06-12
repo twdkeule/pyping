@@ -73,16 +73,16 @@ class Response(object):
 	#########
 	# Linux #
 	#########
-	"""
-		PING google.com (216.58.206.110) 56(84) bytes of data.
-		PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-		64 bytes from 8.8.8.8: icmp_seq=1 ttl=47 time=27.4 ms
-		64 bytes from 8.8.8.8: icmp_seq=2 ttl=47 time=14.6 ms
-		64 bytes from 8.8.8.8: icmp_seq=3 ttl=47 time=12.6 ms
-		--- 8.8.8.8 ping statistics ---
-		3 packets transmitted, 3 received, 0% packet loss, time 2003ms
-		rtt min/avg/max/mdev = 12.668/18.256/27.449/6.551 ms
-	"""
+
+	# PING google.com (216.58.206.110) 56(84) bytes of data.
+	# PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+	# 64 bytes from 8.8.8.8: icmp_seq=1 ttl=47 time=27.4 ms
+	# 64 bytes from 8.8.8.8: icmp_seq=2 ttl=47 time=14.6 ms
+	# 64 bytes from 8.8.8.8: icmp_seq=3 ttl=47 time=12.6 ms
+	# --- 8.8.8.8 ping statistics ---
+	# 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+	# rtt min/avg/max/mdev = 12.668/18.256/27.449/6.551 ms
+
 	def _parse_header_ipv4_linux(self, line):
 		parts = line.split(' ')
 		if parts[0] != 'PING':
@@ -100,14 +100,14 @@ class Response(object):
 		return True
 
 	def _parse_time_stats_linux(self, line):
-		rtt, vars, _, values, ms = line.split(' ')
+		rtt, variables, _, values, ms = line.split(' ')
 		if rtt != 'rtt' or ms != 'ms':
 			raise ValueError('Time statistics: too many/few items: ' + line)
-		vars = vars.split('/')
+		variables = variables.split('/')
 		values = values.split('/')
-		if len(vars) != len(values):
+		if len(variables) != len(values):
 			raise ValueError('Time statistics: # items does not match: ' + line)
-		for i, var in enumerate(vars):
+		for i, var in enumerate(variables):
 			if var == 'min':
 				self.min_rtt = float(values[i]) / 1000
 			elif var == 'avg':
@@ -132,19 +132,19 @@ class Response(object):
 	###########
 	# Windows #
 	###########
-	"""
-		Pinging 8.8.8.8 with 32 bytes of data:
-		Pinging google.com [216.58.208.46] with 32 bytes of data:
-		Reply from 216.58.208.46: bytes=32 time=23ms TTL=51
-		Reply from 216.58.208.46: bytes=32 time=26ms TTL=51
-		Reply from 216.58.208.46: bytes=32 time=23ms TTL=51
-		Reply from 216.58.208.46: bytes=32 time=27ms TTL=51
 
-		Ping statistics for 216.58.208.46:
-			Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
-		Approximate round trip times in milli-seconds:
-			Minimum = 23ms, Maximum = 27ms, Average = 24ms
-	"""
+	# Pinging 8.8.8.8 with 32 bytes of data:
+	# Pinging google.com [216.58.208.46] with 32 bytes of data:
+	# Reply from 216.58.208.46: bytes=32 time=23ms TTL=51
+	# Reply from 216.58.208.46: bytes=32 time=26ms TTL=51
+	# Reply from 216.58.208.46: bytes=32 time=23ms TTL=51
+	# Reply from 216.58.208.46: bytes=32 time=27ms TTL=51
+	#
+	# Ping statistics for 216.58.208.46:
+	# 	Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+	# Approximate round trip times in milli-seconds:
+	# 	Minimum = 23ms, Maximum = 27ms, Average = 24ms
+
 	def _parse_header_ipv4_win(self, line):
 		parts = line.split(' ')
 		if parts[0] != 'Pinging':
