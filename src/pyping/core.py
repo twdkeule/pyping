@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
 # coding: utf-8
-"""
-	Copyright (C) 2017  Thomas De Keulenaer
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
-"""
+# Copyright (C) 2017  Thomas De Keulenaer
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 	pyping.py
@@ -108,14 +107,14 @@ class Response(object):
 		values = values.split('/')
 		if len(vars) != len(values):
 			raise ValueError('Time statistics: # items does not match: ' + line)
-		for i in range(len(vars)):
-			if vars[i] == 'min':
+		for i, var in enumerate(vars):
+			if var == 'min':
 				self.min_rtt = float(values[i]) / 1000
-			if vars[i] == 'avg':
+			elif var == 'avg':
 				self.avg_rtt = float(values[i]) / 1000
-			if vars[i] == 'max':
+			elif var == 'max':
 				self.max_rtt = float(values[i]) / 1000
-			if vars[i] == 'mdev':
+			elif var == 'mdev':
 				self.mdev = float(values[i]) / 1000
 
 	def _parse_packet_stats(self, line):
