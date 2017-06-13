@@ -179,16 +179,25 @@ class Response(object):
 		self.avg_rtt = float(match.group(3)) / 1000
 
 class Ping(object):
-	ping = 'ping'
+	ping_command = 'ping'
 	has_ipv4_flag = None
 	platform_is_windows = False
+	MIN_TIMEOUT = 1
+	MIN_INTERVAL = 0.2
+	MIN_COUNT = 1
 
-	def __init__(self, destination, count=1, timeout=-1.0, packet_size=-1, interval=-1.0, sourceaddress=None, ttl=-1):
+	def __init__(self, destination, count=5, timeout=-1, packet_size=-1, interval=-1.0, sourceaddress=None, ttl=-1):
 		self.destination = str(destination)
 		self.count = int(count)
-		self.timeout = float(timeout)
+		if self.count >= 0 and self.count < Ping.MIN_COUNT:
+			self.count = Ping.MIN_COUNT
+		self.timeout = int(timeout)
+		if self.timeout >= 0 and self.timeout < Ping.MIN_TIMEOUT:
+			self.timeout = Ping.MIN_TIMEOUT
 		self.packet_size = int(packet_size)
 		self.interval = float(interval)
+		if self.interval >= 0 and self.interval < Ping.MIN_INTERVAL:
+			self.interval = Ping.MIN_INTERVAL
 		self.sourceaddress = sourceaddress
 		self.ttl = int(ttl)
 
@@ -197,19 +206,19 @@ class Ping(object):
 		from sys import platform as _platform
 		if _platform == "linux" or _platform == "linux2":
 			# linux
-			pass
+			ret = subprocess.run([Ping.ping_command, '-h'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+			Ping.has_ipv4_flag = bool('4' in ret.stdout.decode())
 		elif _platform == "darwin":
 			# MAC OS X
 			pass
 		elif _platform == "win32":
 			Ping.platform_is_windows = True
-		ret = subprocess.run([Ping.ping, '-h'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		Ping.has_ipv4_flag = bool('4' in ret.stdout.decode() or Ping.platform_is_windows)
+			Ping.has_ipv4_flag = True
 
 	def run(self):
 		if Ping.has_ipv4_flag is None:
 			Ping._check_exe()
-		args = [Ping.ping]
+		args = [Ping.ping_command]
 		if Ping.has_ipv4_flag:
 			args.append('-4')
 		if Ping.platform_is_windows:
@@ -224,12 +233,10 @@ class Ping(object):
 				args += ['-S', str(self.sourceaddress)]
 		else:
 			# Linux
+			if self.count > 0:
+				args += ['-c', str(self.count)]
 			if self.timeout > 0:
-				max_timeout = int(self.count * self.timeout)
 				args += ['-W', str(self.timeout)]
-			else:
-				max_timeout = self.count
-			args += ['-w', str(max_timeout)]
 			if self.packet_size > 0:
 				args += ['-s', str(self.packet_size)]
 			if self.interval > 0:
@@ -242,10 +249,22 @@ class Ping(object):
 		compl_proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		return Response(compl_proc.returncode, compl_proc.stdout.decode(), Ping.platform_is_windows)
 
-def ping(hostname, count=3, *args, **kwargs):
+def ping(hostname, fast=False, *args, **kwargs):
 	"""
 		Uses the CLI 'ping' command and parses its output.
 		Notice that this will take several seconds with default parameters
+		When fast is True, the pyping will sent 3 packets as fast as possible
 	"""
-	pyping = Ping(hostname, count, *args, **kwargs)
+	if fast:
+		pyping = Ping(hostname, count=3, interval=0.2)
+		return pyping.run()
+	pyping = Ping(hostname, *args, **kwargs)
 	return pyping.run()
+
+def is_host_alive(hostname):
+	"""
+		Pings hostname once and checks if it answers in 1s
+	"""
+	pyping = Ping(hostname, timeout=1, count=1)
+	result = pyping.run()
+	return bool(result.succes)
