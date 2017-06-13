@@ -4,6 +4,8 @@ Pyping
 
 .. image:: https://travis-ci.org/twdkeule/pyping.svg?branch=master
     :target: https://travis-ci.org/twdkeule/pyping
+.. image:: https://api.codacy.com/project/badge/Grade/1e64c14c480745e5b9db007998909798
+    :target: https://www.codacy.com/app/twdkeule/pyping?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=twdkeule/pyping&amp;utm_campaign=Badge_Grade
 
 A python wrapper around the Linux ping command. Developed and tested for python3 on Windows 10 and Ubuntu 17.04 and 12.04.
 

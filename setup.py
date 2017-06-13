@@ -24,7 +24,7 @@ def read(*names, **kwargs):
 
 setup(
 	name='pyping',
-	version='0.0.6',
+	version='0.0.7',
 	license=open("LICENSE").read(),
 	description='A python wrapper around the Linux ping command',
 	long_description=read('README.rst'),
@@ -35,7 +35,7 @@ setup(
 	package_dir={'': 'src'},
 	py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
 	include_package_data=True,
-	zip_safe=False,
+	zip_safe=True,
 	classifiers=[
 		"Development Status :: 4 - Beta",
 		"License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
